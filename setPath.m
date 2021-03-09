@@ -23,10 +23,4 @@ addpath([pwd, '/external/YALMIP-master/modules/global']);
 addpath([pwd, '/external/YALMIP-master/modules/sos']);
 addpath([pwd, '/external/YALMIP-master/operators']);
 % CasADi
-if ispc
-    addpath([pwd, '/external/casadi-windows-matlabR2016a-v3.5.1']);
-elseif isunix
-    addpath([pwd, '/external/casadi-linux-matlabR2014b-v3.5.1']);
-else
-    warning('Casadi not found for the platform');
-end
+addpath([pwd, '/external/casadi-linux-matlabR2014b-v3.5.1']);
