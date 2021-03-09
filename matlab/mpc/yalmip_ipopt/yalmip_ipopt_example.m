@@ -113,8 +113,12 @@ while n_loop <= max_n_loop && flag_robot_reach == 0
             * robot_vel_current / max(norm(robot_vel_current),0.1);
     end
     % simulate one step
-    robot_pos_current = robot_mpc_ZPlan(index.z.pos, 1);
-    robot_vel_current = robot_mpc_ZPlan(index.z.vel, 1);
+    % simulate one step
+    x_now = [robot_pos_current; robot_vel_current];
+    x_next = my_RK2(x_now, robot_input_current, pr.robot_dynamics_continuous, ...
+        model.dt, []);
+    robot_pos_current = x_next(1:2);
+    robot_vel_current = x_next(3:4);
     % determin if reaching
     if norm(robot_pos_current-robot_pos_goal) < Tol_robot_pos && ...
             norm(robot_vel_current) < Tol_robot_vel

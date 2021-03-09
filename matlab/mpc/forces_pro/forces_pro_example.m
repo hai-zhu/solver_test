@@ -7,7 +7,7 @@ clc
 
 %% problem setup
 problem_setup;
-if_generate_new_solver = 1;
+if_generate_new_solver = 0;
 
 
 %% MPC formulation using Forces Pro
@@ -156,8 +156,13 @@ while n_loop <= max_n_loop && flag_robot_reach == 0
             * robot_vel_current / max(norm(robot_vel_current),0.1);
     end
     % simulate one step
-    robot_pos_current = robot_mpc_ZPlan(index.z.pos, 2);
-    robot_vel_current = robot_mpc_ZPlan(index.z.vel, 2);
+%     robot_pos_current = robot_mpc_ZPlan(index.z.pos, 2);
+%     robot_vel_current = robot_mpc_ZPlan(index.z.vel, 2);
+    x_now = [robot_pos_current; robot_vel_current];
+    x_next = my_RK2(x_now, robot_input_current, pr.robot_dynamics_continuous, ...
+        model.dt, []);
+    robot_pos_current = x_next(1:2);
+    robot_vel_current = x_next(3:4);
     % determin if reaching
     if norm(robot_pos_current-robot_pos_goal) < Tol_robot_pos && ...
             norm(robot_vel_current) < Tol_robot_vel
@@ -179,8 +184,8 @@ while n_loop <= max_n_loop && flag_robot_reach == 0
     % update figure
     [X_temp, Y_temp] = ellipse(robot_pos_current, robot_size, 0);
     set(fig_robot_pos, 'XData', X_temp, 'YData', Y_temp); 
-    set(fig_robot_mpc_path, 'XData', robot_mpc_ZPlan(index.z.pos(1), :), ...
-        'YData', robot_mpc_ZPlan(index.z.pos(2), :));
+    set(fig_robot_mpc_path, 'XData', robot_mpc_ZPlan(index.z.pos(1), 2:end), ...
+        'YData', robot_mpc_ZPlan(index.z.pos(2), 2:end));
     drawnow limitrate
     pause(0.05);
 end
