@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addonCore>
+  <label>IPOPT-toolbox</label>
+  <version>1.1.2</version>
+  <type>Toolbox</type>
+  <identifier>8c6151e5-a3ca-48c3-a927-1ae106541ff6</identifier>
+  <summary>Toolbox for MATLAB interfacing with IPOPT</summary>
+  <image>resources/screenshot.png</image>
+</addonCore>

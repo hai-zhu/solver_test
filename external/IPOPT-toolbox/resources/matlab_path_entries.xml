@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<paths>
+  <path>bin/linux_5</path>
+  <path>bin/linux_4</path>
+  <path>bin/linux_3</path>
+  <path>bin/osx</path>
+  <path>bin/windows</path>
+  <path>lib</path>
+  <path>.</path>
+</paths>
