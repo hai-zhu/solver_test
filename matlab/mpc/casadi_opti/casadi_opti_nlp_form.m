@@ -1,5 +1,5 @@
 %% formulate the NLP using casadi Opti stack
-function opti = casadi_opti_ipopt_nlp_form(model)
+function opti = casadi_opti_nlp_form(model)
 
     global index pr
 

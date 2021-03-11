@@ -26,23 +26,3 @@ w_pos           = 8.0;                  % mpc weights
 w_inputs        = 0.1;
 w_coll          = 0.0;
 w_slack         = 1E4;
-
-%% define index
-global index
-% z vecot
-index.z.inputs  =   1:2;
-index.z.slack   =   3;
-index.z.pos     =   4:5;
-index.z.vel     =   6:7;
-% x vector
-index.x.pos     =   1:2;
-index.x.vel     =   3:4;
-% p vector
-index.p.robot_state =   1:4;
-index.p.robot_start =   5:6;
-index.p.robot_goal  =   7:8;
-index.p.robot_size  =   9:10;
-index.p.mpc_weights =   11:14;
-index.p.obs_pos     =   15:16;
-index.p.obs_size    =   17:18;
-index.p.obs_scale   =   19;

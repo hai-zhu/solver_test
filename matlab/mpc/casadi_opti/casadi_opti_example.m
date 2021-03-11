@@ -33,8 +33,30 @@ model.ul    =   [-pr.robot_maxAx; -pr.robot_maxAy];
 model.uu    =   [ pr.robot_maxAx;  pr.robot_maxAy];
 model.sl    =   0;
 model.su    =   10;
-% NLP formulation
-opti = casadi_opti_ipopt_nlp_form(model);
+% index
+global index
+% z vecot
+index.z.inputs  =   1:2;
+index.z.slack   =   3;
+index.z.pos     =   4:5;
+index.z.vel     =   6:7;
+% x vector
+index.x.pos     =   1:2;
+index.x.vel     =   3:4;
+% p vector
+index.p.robot_state =   1:4;
+index.p.robot_start =   5:6;
+index.p.robot_goal  =   7:8;
+index.p.robot_size  =   9:10;
+index.p.mpc_weights =   11:14;
+index.p.obs_pos     =   15:16;
+index.p.obs_size    =   17:18;
+index.p.obs_scale   =   19;
+
+
+%% NLP formulation
+opti = casadi_opti_nlp_form(model);
+
 
 %% simulation loop
 %% plooting figure
@@ -45,7 +67,7 @@ grid on;
 axis equal;
 axis([pr.ws_x', pr.ws_y']);
 xlabel('x [m]');
-ylabel('y [m]')
+ylabel('y [m]');
 ax_main = fig_main.CurrentAxes;
 fig_ell_obs = plot_ellipse_2D(ax_main, obs_pos, obs_size, 0, ...
             'FaceColor', 'r', 'FaceAlpha', 0.4, ...
@@ -70,6 +92,7 @@ n_loop = 0;                         % number of loops performed
 max_n_loop = 1000;
 mpc_solve_it = 0;
 mpc_solve_time = 0;
+mpc_solve_time_all = [];
 robot_pos_current       = robot_pos_start;
 robot_vel_current       = [0; 0];
 robot_input_current     = [0; 0];
@@ -115,6 +138,7 @@ while n_loop <= max_n_loop && flag_robot_reach == 0
     tic;
     sol = opti.solve();
     mpc_solve_time = 1000*toc;
+    mpc_solve_time_all = [mpc_solve_time_all; mpc_solve_time];
     mpc_solve_it = sol.stats.iter_count;
     if sol.stats.success == 1  % feasible
         mpc_infeasible = 0;
@@ -167,3 +191,4 @@ while n_loop <= max_n_loop && flag_robot_reach == 0
     drawnow limitrate
     pause(0.05);
 end
+mpc_solve_time_avg = mean(mpc_solve_time_all)

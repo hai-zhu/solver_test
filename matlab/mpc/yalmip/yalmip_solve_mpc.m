@@ -1,4 +1,4 @@
-function [output, exitflag, info] = yalmip_ipopt_solve_mpc(model, problem, options)
+function [output, exitflag, info] = yalmip_solve_mpc(model, problem, options)
 
     % formulate and call a sovler (Ipopt) to solve the MPC problem
     global index pr

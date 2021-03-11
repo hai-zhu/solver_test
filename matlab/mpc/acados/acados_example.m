@@ -109,6 +109,7 @@ n_loop = 0;                         % number of loops performed
 max_n_loop = 1000;
 mpc_solve_it = 0;
 mpc_solve_time = 0;
+mpc_solve_time_all = [];
 robot_pos_current       = robot_pos_start;
 robot_vel_current       = [0; 0];
 robot_input_current     = [0; 0];
@@ -158,7 +159,9 @@ while n_loop <= max_n_loop && flag_robot_reach == 0
     sqp_iter = ocp.get('sqp_iter');
     time_tot = ocp.get('time_tot');
     time_lin = ocp.get('time_lin');
-    time_qp_sol = ocp.get('time_qp_sol');    
+    time_qp_sol = ocp.get('time_qp_sol'); 
+    mpc_solve_time = 1000*time_tot;
+    mpc_solve_time_all = [mpc_solve_time_all; mpc_solve_time];
     % get solution for initialization of next NLP
 	x_traj = ocp.get('x');
 	u_traj = ocp.get('u');
@@ -194,7 +197,7 @@ while n_loop <= max_n_loop && flag_robot_reach == 0
     % printing
     if(mod(n_loop, 10) == 1)
         fprintf('Looping [%d], time_tot: %.2f ms, sqp iter: %d \n', ...
-            n_loop, 1000*time_tot, sqp_iter);
+            n_loop, mpc_solve_time, sqp_iter);
     end
     % update figure
     [X_temp, Y_temp] = ellipse(robot_pos_current, robot_size, 0);
@@ -204,3 +207,4 @@ while n_loop <= max_n_loop && flag_robot_reach == 0
     drawnow limitrate
     pause(0.05);
 end
+mpc_solve_time_avg = mean(mpc_solve_time_all)

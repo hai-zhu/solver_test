@@ -37,7 +37,7 @@ function ocp_opts = acados_mpc_options(model)
     % QP solver
     ocp_opts.set('qp_solver', 'full_condensing_qpoases');   % should try and compare different solvers
     ocp_opts.set('qp_solver_cond_N', 5); % floor(model.N/2)
-    ocp_opts.set('qp_solver_iter_max', 60);
+    ocp_opts.set('qp_solver_iter_max', 50);
     ocp_opts.set('qp_solver_warm_start', 0);
     ocp_opts.set('qp_solver_cond_ric_alg', 1);
     ocp_opts.set('qp_solver_ric_alg', 1);

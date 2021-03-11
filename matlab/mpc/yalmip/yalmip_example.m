@@ -30,6 +30,25 @@ model.ul    =   [-pr.robot_maxAx; -pr.robot_maxAy];
 model.uu    =   [ pr.robot_maxAx;  pr.robot_maxAy];
 model.sl    =   0;
 model.su    =   Inf;
+% index
+global index
+% z vecot
+index.z.inputs  =   1:2;
+index.z.slack   =   3;
+index.z.pos     =   4:5;
+index.z.vel     =   6:7;
+% x vector
+index.x.pos     =   1:2;
+index.x.vel     =   3:4;
+% p vector
+index.p.robot_state =   1:4;
+index.p.robot_start =   5:6;
+index.p.robot_goal  =   7:8;
+index.p.robot_size  =   9:10;
+index.p.mpc_weights =   11:14;
+index.p.obs_pos     =   15:16;
+index.p.obs_size    =   17:18;
+index.p.obs_scale   =   19;
 
 
 %% simulation loop
@@ -66,6 +85,7 @@ n_loop = 0;                         % number of loops performed
 max_n_loop = 1000;
 mpc_solve_it = 0;
 mpc_solve_time = 0;
+mpc_solve_time_all = [];
 robot_pos_current       = robot_pos_start;
 robot_vel_current       = [0; 0];
 robot_input_current     = [0; 0];
@@ -100,8 +120,9 @@ while n_loop <= max_n_loop && flag_robot_reach == 0
     options.ipopt.tol = 1E-6;
     options.ipopt.max_iter = 300;
     % call the solver
-    [mpc_output, mpc_exitflag, mpc_info] = yalmip_ipopt_solve_mpc(model, problem, options);
+    [mpc_output, mpc_exitflag, mpc_info] = yalmip_solve_mpc(model, problem, options);
     mpc_solve_time = 1000*(mpc_info.solvetime+mpc_info.yalmiptime);
+    mpc_solve_time_all = [mpc_solve_time_all; mpc_solve_time];
     % control input
     if mpc_exitflag == 1    % feasible
         mpc_infeasible = 0;
@@ -145,3 +166,4 @@ while n_loop <= max_n_loop && flag_robot_reach == 0
     drawnow limitrate
     pause(0.05);
 end
+mpc_solve_time_avg = mean(mpc_solve_time_all)

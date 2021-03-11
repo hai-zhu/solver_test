@@ -11,6 +11,25 @@ if_generate_new_solver = 0;
 
 
 %% MPC formulation using Forces Pro
+%% index
+global index
+% z vecot
+index.z.inputs  =   1:2;
+index.z.slack   =   3;
+index.z.pos     =   4:5;
+index.z.vel     =   6:7;
+% x vector
+index.x.pos     =   1:2;
+index.x.vel     =   3:4;
+% p vector
+index.p.robot_start =   1:2;
+index.p.robot_goal  =   3:4;
+index.p.robot_size  =   5:6;
+index.p.mpc_weights =   7:10;
+index.p.obs_pos     =   11:12;
+index.p.obs_size    =   13:14;
+index.p.obs_scale   =   15;
+%% model
 global model
 % number of variables
 model.dt   	=   dt;     % sampling time
@@ -98,6 +117,7 @@ n_loop = 0;                         % number of loops performed
 max_n_loop = 1000;
 mpc_solve_it = 0;
 mpc_solve_time = 0;
+mpc_solve_time_all = [];
 robot_pos_current       = robot_pos_start;
 robot_vel_current       = [0; 0];
 robot_input_current     = [0; 0];
@@ -111,7 +131,6 @@ while n_loop <= max_n_loop && flag_robot_reach == 0
     % setting real time parameters for MPC
     parameters_all_stage = zeros(model.npar, model.N);  % all paraterms on each stage
     for iStage = 1 : model.N
-        parameters_all_stage(index.p.robot_state, iStage) = [robot_pos_current; robot_vel_current];
         parameters_all_stage(index.p.robot_start, iStage) = robot_pos_current;
         parameters_all_stage(index.p.robot_goal, iStage) = robot_pos_goal;
         parameters_all_stage(index.p.robot_size, iStage) = robot_size;
@@ -144,6 +163,7 @@ while n_loop <= max_n_loop && flag_robot_reach == 0
     end
     mpc_solve_it   = mpc_info.it;
     mpc_solve_time = 1000*mpc_info.solvetime;
+    mpc_solve_time_all = [mpc_solve_time_all; mpc_solve_time];
     % check the exitflag and get optimal control input
     forces_pro_solver_exitflag(mpc_exitflag);
     % control input
@@ -189,4 +209,4 @@ while n_loop <= max_n_loop && flag_robot_reach == 0
     drawnow limitrate
     pause(0.05);
 end
-
+mpc_solve_time_avg = mean(mpc_solve_time_all)
