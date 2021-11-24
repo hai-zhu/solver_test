@@ -9,7 +9,7 @@ import casadi.*         % to use CasADi sytax
 
 %% problem setup
 problem_setup;
-recompile = true;
+recompile = false;
 solver_build_name = 'casadi_collocation_nlp';
 
 %% MPC formulation to use CasADi
@@ -48,6 +48,7 @@ index.p.obs_scale   =   15;
 %% NLP formulation and solver
 [nlp_solver, nlp_lbx, nlp_ubx, nlp_lbg, nlp_ubg] = ...
     casadi_collocation_nlp_form(model);
+folder_name = './matlab/mpc/casadi_collocation/build/';
 if recompile
      % generate, generate_dependencies
     gen_opts = struct('mex', true);
@@ -57,7 +58,6 @@ if recompile
         ' -o ', solver_build_name, '.so']);
     disp('Done Compiling!');
     % move file
-    folder_name = './matlab/mpc/casadi_collocation/build/';
     mkdir(folder_name);
     rmdir(folder_name, 's');
     mkdir(folder_name);
