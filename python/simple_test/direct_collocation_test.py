@@ -4,7 +4,7 @@ import numpy as np
 from os import system
 import time
 
-recompile = False
+recompile = True  
 
 
 T = 1. # Time horizon
@@ -182,12 +182,12 @@ for k in range(N):
 if recompile:
     solver.generate_dependencies('nlp.c')
     print('Compiling...')
-    system('gcc -fPIC -shared -O3 nlp.c -o nlp.so')
+    system('gcc -fPIC -shared nlp.c -o nlp.so')
     print('Done Compiling!')
 
 solver_comp = cd.nlpsol('solver', 'ipopt', './nlp.so', {'print_time': 0, 'ipopt.print_level' : 0})
 a = time.time()
-for ix in range(1000):
+for ix in range(100):
     solver_comp(x0=w0,lbx=lbw,ubx=ubw,lbg=lbg,ubg=ubg)
 print('Total Time: %f' % (time.time() - a))
 

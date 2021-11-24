@@ -69,8 +69,8 @@ function opti = casadi_opti_nlp_form(model)
     opti.minimize(cost);
     options.print_time = 0;
     options.ipopt.print_level = 0;
-    options.ipopt.tol = 1E-6;
-    options.ipopt.max_iter = 300;
+    options.ipopt.tol = 1E-4;
+    options.ipopt.max_iter = 100;
     opti.solver('ipopt',options);
 
 end
