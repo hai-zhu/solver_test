@@ -5,10 +5,10 @@ extern "C" {
 #endif
 
 /* How to prefix internal symbols */
-#ifdef CASADI_CODEGEN_PREFIX
-  #define CASADI_NAMESPACE_CONCAT(NS, ID) _CASADI_NAMESPACE_CONCAT(NS, ID)
-  #define _CASADI_NAMESPACE_CONCAT(NS, ID) NS ## ID
-  #define CASADI_PREFIX(ID) CASADI_NAMESPACE_CONCAT(CODEGEN_PREFIX, ID)
+#ifdef CODEGEN_PREFIX
+  #define NAMESPACE_CONCAT(NS, ID) _NAMESPACE_CONCAT(NS, ID)
+  #define _NAMESPACE_CONCAT(NS, ID) NS ## ID
+  #define CASADI_PREFIX(ID) NAMESPACE_CONCAT(CODEGEN_PREFIX, ID)
 #else
   #define CASADI_PREFIX(ID) di_mpc_ca_dyn_expl_vde_forw_ ## ID
 #endif
@@ -53,77 +53,59 @@ static const casadi_int casadi_s3[6] = {2, 1, 0, 2, 0, 1};
 static const casadi_int casadi_s4[19] = {15, 1, 0, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14};
 
 /* di_mpc_ca_dyn_expl_vde_forw:(i0[4],i1[4x4],i2[4x2],i3[2],i4[15])->(o0[4],o1[4x4],o2[4x2]) */
-static int casadi_f0(const casadi_real** arg, casadi_real** res, casadi_int* iw, casadi_real* w, int mem) {
+static int casadi_f0(const casadi_real** arg, casadi_real** res, casadi_int* iw, casadi_real* w, void* mem) {
   casadi_real a0, a1, a2;
-  a0=arg[0]? arg[0][2] : 0;
+  a0=arg[0] ? arg[0][2] : 0;
   if (res[0]!=0) res[0][0]=a0;
-  a0=arg[0]? arg[0][3] : 0;
+  a0=arg[0] ? arg[0][3] : 0;
   if (res[0]!=0) res[0][1]=a0;
-  a0=arg[3]? arg[3][0] : 0;
+  a0=arg[3] ? arg[3][0] : 0;
   if (res[0]!=0) res[0][2]=a0;
-  a0=arg[3]? arg[3][1] : 0;
+  a0=arg[3] ? arg[3][1] : 0;
   if (res[0]!=0) res[0][3]=a0;
-  a0=arg[1]? arg[1][2] : 0;
+  a0=arg[1] ? arg[1][2] : 0;
   if (res[1]!=0) res[1][0]=a0;
-  a0=arg[1]? arg[1][3] : 0;
+  a0=arg[1] ? arg[1][3] : 0;
   if (res[1]!=0) res[1][1]=a0;
   a0=0.;
   if (res[1]!=0) res[1][2]=a0;
   if (res[1]!=0) res[1][3]=a0;
-  a1=arg[1]? arg[1][6] : 0;
+  a1=arg[1] ? arg[1][6] : 0;
   if (res[1]!=0) res[1][4]=a1;
-  a1=arg[1]? arg[1][7] : 0;
+  a1=arg[1] ? arg[1][7] : 0;
   if (res[1]!=0) res[1][5]=a1;
   if (res[1]!=0) res[1][6]=a0;
   if (res[1]!=0) res[1][7]=a0;
-  a1=arg[1]? arg[1][10] : 0;
+  a1=arg[1] ? arg[1][10] : 0;
   if (res[1]!=0) res[1][8]=a1;
-  a1=arg[1]? arg[1][11] : 0;
+  a1=arg[1] ? arg[1][11] : 0;
   if (res[1]!=0) res[1][9]=a1;
   if (res[1]!=0) res[1][10]=a0;
   if (res[1]!=0) res[1][11]=a0;
-  a1=arg[1]? arg[1][14] : 0;
+  a1=arg[1] ? arg[1][14] : 0;
   if (res[1]!=0) res[1][12]=a1;
-  a1=arg[1]? arg[1][15] : 0;
+  a1=arg[1] ? arg[1][15] : 0;
   if (res[1]!=0) res[1][13]=a1;
   if (res[1]!=0) res[1][14]=a0;
   if (res[1]!=0) res[1][15]=a0;
-  a1=arg[2]? arg[2][2] : 0;
+  a1=arg[2] ? arg[2][2] : 0;
   if (res[2]!=0) res[2][0]=a1;
-  a1=arg[2]? arg[2][3] : 0;
+  a1=arg[2] ? arg[2][3] : 0;
   if (res[2]!=0) res[2][1]=a1;
   a1=1.;
   if (res[2]!=0) res[2][2]=a1;
   if (res[2]!=0) res[2][3]=a0;
-  a2=arg[2]? arg[2][6] : 0;
+  a2=arg[2] ? arg[2][6] : 0;
   if (res[2]!=0) res[2][4]=a2;
-  a2=arg[2]? arg[2][7] : 0;
+  a2=arg[2] ? arg[2][7] : 0;
   if (res[2]!=0) res[2][5]=a2;
   if (res[2]!=0) res[2][6]=a0;
   if (res[2]!=0) res[2][7]=a1;
   return 0;
 }
 
-CASADI_SYMBOL_EXPORT int di_mpc_ca_dyn_expl_vde_forw(const casadi_real** arg, casadi_real** res, casadi_int* iw, casadi_real* w, int mem){
+CASADI_SYMBOL_EXPORT int di_mpc_ca_dyn_expl_vde_forw(const casadi_real** arg, casadi_real** res, casadi_int* iw, casadi_real* w, void* mem){
   return casadi_f0(arg, res, iw, w, mem);
-}
-
-CASADI_SYMBOL_EXPORT int di_mpc_ca_dyn_expl_vde_forw_alloc_mem(void) {
-  return 0;
-}
-
-CASADI_SYMBOL_EXPORT int di_mpc_ca_dyn_expl_vde_forw_init_mem(int mem) {
-  return 0;
-}
-
-CASADI_SYMBOL_EXPORT void di_mpc_ca_dyn_expl_vde_forw_free_mem(int mem) {
-}
-
-CASADI_SYMBOL_EXPORT int di_mpc_ca_dyn_expl_vde_forw_checkout(void) {
-  return 0;
-}
-
-CASADI_SYMBOL_EXPORT void di_mpc_ca_dyn_expl_vde_forw_release(int mem) {
 }
 
 CASADI_SYMBOL_EXPORT void di_mpc_ca_dyn_expl_vde_forw_incref(void) {
@@ -135,12 +117,6 @@ CASADI_SYMBOL_EXPORT void di_mpc_ca_dyn_expl_vde_forw_decref(void) {
 CASADI_SYMBOL_EXPORT casadi_int di_mpc_ca_dyn_expl_vde_forw_n_in(void) { return 5;}
 
 CASADI_SYMBOL_EXPORT casadi_int di_mpc_ca_dyn_expl_vde_forw_n_out(void) { return 3;}
-
-CASADI_SYMBOL_EXPORT casadi_real di_mpc_ca_dyn_expl_vde_forw_default_in(casadi_int i){
-  switch (i) {
-    default: return 0;
-  }
-}
 
 CASADI_SYMBOL_EXPORT const char* di_mpc_ca_dyn_expl_vde_forw_name_in(casadi_int i){
   switch (i) {

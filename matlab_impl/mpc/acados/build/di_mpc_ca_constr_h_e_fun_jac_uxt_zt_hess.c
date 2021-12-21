@@ -5,10 +5,10 @@ extern "C" {
 #endif
 
 /* How to prefix internal symbols */
-#ifdef CASADI_CODEGEN_PREFIX
-  #define CASADI_NAMESPACE_CONCAT(NS, ID) _CASADI_NAMESPACE_CONCAT(NS, ID)
-  #define _CASADI_NAMESPACE_CONCAT(NS, ID) NS ## ID
-  #define CASADI_PREFIX(ID) CASADI_NAMESPACE_CONCAT(CODEGEN_PREFIX, ID)
+#ifdef CODEGEN_PREFIX
+  #define NAMESPACE_CONCAT(NS, ID) _NAMESPACE_CONCAT(NS, ID)
+  #define _NAMESPACE_CONCAT(NS, ID) NS ## ID
+  #define CASADI_PREFIX(ID) NAMESPACE_CONCAT(CODEGEN_PREFIX, ID)
 #else
   #define CASADI_PREFIX(ID) di_mpc_ca_constr_h_e_fun_jac_uxt_zt_hess_ ## ID
 #endif
@@ -47,34 +47,34 @@ extern "C" {
   #endif
 #endif
 
-casadi_real casadi_sq(casadi_real x) { return x*x;}
-
 static const casadi_int casadi_s0[8] = {4, 1, 0, 4, 0, 1, 2, 3};
 static const casadi_int casadi_s1[5] = {1, 1, 0, 1, 0};
 static const casadi_int casadi_s2[19] = {15, 1, 0, 15, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14};
 static const casadi_int casadi_s3[6] = {4, 1, 0, 2, 0, 1};
 static const casadi_int casadi_s4[9] = {4, 4, 0, 1, 2, 2, 2, 0, 1};
 
+casadi_real casadi_sq(casadi_real x) { return x*x;}
+
 /* di_mpc_ca_constr_h_e_fun_jac_uxt_zt_hess:(i0[4],i1,i2[15])->(o0,o1[4x1,2nz],o2[4x4,2nz]) */
-static int casadi_f0(const casadi_real** arg, casadi_real** res, casadi_int* iw, casadi_real* w, int mem) {
+static int casadi_f0(const casadi_real** arg, casadi_real** res, casadi_int* iw, casadi_real* w, void* mem) {
   casadi_real a0, a1, a2, a3, a4, a5, a6, a7;
-  a0=arg[0]? arg[0][0] : 0;
-  a1=arg[2]? arg[2][10] : 0;
+  a0=arg[0] ? arg[0][0] : 0;
+  a1=arg[2] ? arg[2][10] : 0;
   a0=(a0-a1);
   a1=casadi_sq(a0);
-  a2=arg[2]? arg[2][4] : 0;
+  a2=arg[2] ? arg[2][4] : 0;
   a3=1.0500000000000000e+00;
-  a4=arg[2]? arg[2][12] : 0;
+  a4=arg[2] ? arg[2][12] : 0;
   a4=(a3*a4);
   a2=(a2+a4);
   a2=casadi_sq(a2);
   a1=(a1/a2);
-  a4=arg[0]? arg[0][1] : 0;
-  a5=arg[2]? arg[2][11] : 0;
+  a4=arg[0] ? arg[0][1] : 0;
+  a5=arg[2] ? arg[2][11] : 0;
   a4=(a4-a5);
   a5=casadi_sq(a4);
-  a6=arg[2]? arg[2][5] : 0;
-  a7=arg[2]? arg[2][13] : 0;
+  a6=arg[2] ? arg[2][5] : 0;
+  a7=arg[2] ? arg[2][13] : 0;
   a3=(a3*a7);
   a6=(a6+a3);
   a6=casadi_sq(a6);
@@ -90,7 +90,7 @@ static int casadi_f0(const casadi_real** arg, casadi_real** res, casadi_int* iw,
   a4=(a4/a6);
   if (res[1]!=0) res[1][1]=a4;
   a4=2.;
-  a0=arg[1]? arg[1][0] : 0;
+  a0=arg[1] ? arg[1][0] : 0;
   a2=(a0/a2);
   a2=(a4*a2);
   if (res[2]!=0) res[2][0]=a2;
@@ -100,26 +100,8 @@ static int casadi_f0(const casadi_real** arg, casadi_real** res, casadi_int* iw,
   return 0;
 }
 
-CASADI_SYMBOL_EXPORT int di_mpc_ca_constr_h_e_fun_jac_uxt_zt_hess(const casadi_real** arg, casadi_real** res, casadi_int* iw, casadi_real* w, int mem){
+CASADI_SYMBOL_EXPORT int di_mpc_ca_constr_h_e_fun_jac_uxt_zt_hess(const casadi_real** arg, casadi_real** res, casadi_int* iw, casadi_real* w, void* mem){
   return casadi_f0(arg, res, iw, w, mem);
-}
-
-CASADI_SYMBOL_EXPORT int di_mpc_ca_constr_h_e_fun_jac_uxt_zt_hess_alloc_mem(void) {
-  return 0;
-}
-
-CASADI_SYMBOL_EXPORT int di_mpc_ca_constr_h_e_fun_jac_uxt_zt_hess_init_mem(int mem) {
-  return 0;
-}
-
-CASADI_SYMBOL_EXPORT void di_mpc_ca_constr_h_e_fun_jac_uxt_zt_hess_free_mem(int mem) {
-}
-
-CASADI_SYMBOL_EXPORT int di_mpc_ca_constr_h_e_fun_jac_uxt_zt_hess_checkout(void) {
-  return 0;
-}
-
-CASADI_SYMBOL_EXPORT void di_mpc_ca_constr_h_e_fun_jac_uxt_zt_hess_release(int mem) {
 }
 
 CASADI_SYMBOL_EXPORT void di_mpc_ca_constr_h_e_fun_jac_uxt_zt_hess_incref(void) {
@@ -131,12 +113,6 @@ CASADI_SYMBOL_EXPORT void di_mpc_ca_constr_h_e_fun_jac_uxt_zt_hess_decref(void) 
 CASADI_SYMBOL_EXPORT casadi_int di_mpc_ca_constr_h_e_fun_jac_uxt_zt_hess_n_in(void) { return 3;}
 
 CASADI_SYMBOL_EXPORT casadi_int di_mpc_ca_constr_h_e_fun_jac_uxt_zt_hess_n_out(void) { return 3;}
-
-CASADI_SYMBOL_EXPORT casadi_real di_mpc_ca_constr_h_e_fun_jac_uxt_zt_hess_default_in(casadi_int i){
-  switch (i) {
-    default: return 0;
-  }
-}
 
 CASADI_SYMBOL_EXPORT const char* di_mpc_ca_constr_h_e_fun_jac_uxt_zt_hess_name_in(casadi_int i){
   switch (i) {

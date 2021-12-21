@@ -8,7 +8,7 @@ import casadi.*                     % to use CasADi sytax
 
 
 %% set path
-addpath(genpath([pwd, '/../../../utils']));             % utils 
+addpath(genpath([pwd, '/../../../matlab_impl/utils']));      % utils
 addpath(genpath([pwd, '/../../../matlab_impl/dynamics']));   % system dynamics
 addpath(genpath([pwd, '/../../../matlab_impl/objectives'])); % MPC objectives
 
@@ -16,7 +16,7 @@ addpath(genpath([pwd, '/../../../matlab_impl/objectives'])); % MPC objectives
 %% problem setup
 pr.name     =   'di_mpc_ca';    % ocp name
 pr.output_dir = './build';      % code building directory
-pr.new_solver = 1;              % if regenerate the solver
+pr.new_solver = 0;              % if regenerate the solver
 % workspace environment
 pr.ws_x    	= [-10; 10];
 pr.ws_y   	= [-6; 6];
