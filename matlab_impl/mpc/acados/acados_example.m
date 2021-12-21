@@ -9,8 +9,8 @@ import casadi.*                     % to use CasADi sytax
 
 %% set path
 addpath(genpath([pwd, '/../../../utils']));             % utils 
-addpath(genpath([pwd, '/../../../matlab/dynamics']));   % system dynamics
-addpath(genpath([pwd, '/../../../matlab/objectives'])); % MPC objectives
+addpath(genpath([pwd, '/../../../matlab_impl/dynamics']));   % system dynamics
+addpath(genpath([pwd, '/../../../matlab_impl/objectives'])); % MPC objectives
 
 
 %% problem setup

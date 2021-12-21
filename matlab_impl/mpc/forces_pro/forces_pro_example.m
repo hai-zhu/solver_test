@@ -72,7 +72,7 @@ if if_generate_new_solver == 1
     FORCES_NLP(model, codeoptions);
     fprintf('[%s] FORCES solver generated OK \n',datestr(now,'HH:MM:SS'));
     % move the generated solver to the folder
-    folder_name = './matlab/mpc/forces_pro/solver';
+    folder_name = './matlab_impl/mpc/forces_pro/solver';
     mkdir(folder_name);
     rmdir(folder_name, 's');
     mkdir(folder_name);

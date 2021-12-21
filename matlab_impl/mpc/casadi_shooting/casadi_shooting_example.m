@@ -48,7 +48,7 @@ index.p.obs_scale   =   15;
 %% NLP formulation and solver
 [nlp_solver, nlp_lbx, nlp_ubx, nlp_lbg, nlp_ubg] = ...
     casadi_shooting_nlp_form(model);
-folder_name = './matlab/mpc/casadi_shooting/build/';
+folder_name = './matlab_impl/mpc/casadi_shooting/build/';
 if recompile
      % generate, generate_dependencies
     gen_opts = struct('mex', true);

@@ -2,7 +2,7 @@
 % addpath(genpath(pwd));        % uncomment to add all subfolders
 addpath([pwd, '/']);
 addpath([pwd, '/external']);
-addpath(genpath([pwd, '/matlab']));
+addpath(genpath([pwd, '/matlab_impl']));
 % utils
 addpath(genpath([pwd, '/utils']));
 % IPOPT (YALMIP required)

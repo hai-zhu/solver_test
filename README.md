@@ -6,8 +6,12 @@ Examples to test different optimization solvers.
 ## Testing environment
 * Ubuntu 18.04
 * MATLAB R2019b
+* Python 3.8
+* Casadi 3.5.1
 
 A valid licence is required if you want to test the Forces Pro solver.
+
+[Acados](https://docs.acados.org/index.html) needs to be installed if you want test with it.
 
 ## MATLAB test
 * Open a MATLAB instance and navigate the code folder.
@@ -19,8 +23,8 @@ A valid licence is required if you want to test the Forces Pro solver.
     * casadi_shooting_example.m
     * casadi_collocation_example.m
 
-## ACADOS test
-If you want to test the acados solver, first navigate to the directory './matlab/mpc/acados/'. From the folder, open a terminal and run 'source env_set.sh'. Next open MATLAB from the terminal via the command 'matlab'. Then you can run the 'acados_example.m' script to test the acados solver. 
+### ACADOS test
+If you want to test the acados solver with MATLAB, first navigate to the directory './matlab_impl/mpc/acados/'. From the folder, open a terminal and run 'source env_set.sh'. Next open MATLAB from the terminal via the command 'matlab'. Then you can run the 'acados_example.m' script to test the acados solver. 
 
 If you find this code useful in your research then please cite:
 ```
