@@ -1,7 +1,7 @@
 # solver_test
 Examples to test different optimization solvers.
 
-![collision avoidance of a double-integrator robots](./sources/di_ca.gif)
+![collision avoidance of a double-integrator robots](./imgs/di_ca.gif)
 
 ## Testing environment
 * Ubuntu 18.04
