@@ -3,6 +3,11 @@ Examples to test different optimization solvers.
 
 ![collision avoidance of a double-integrator robots](./imgs/di_ca.gif)
 
+```cmd
+$ git clone https://github.com/hai-zhu/solver_test.git
+$ git submodule update --recursive --init
+```
+
 ## Testing environment
 * Ubuntu 18.04
 * MATLAB R2019b
@@ -23,8 +28,19 @@ A valid licence is required if you want to test the Forces Pro solver.
     * casadi_shooting_example.m
     * casadi_collocation_example.m
 
-### ACADOS test
+### MATLAB ACADOS test
 If you want to test the acados solver with MATLAB, first navigate to the directory './matlab_impl/mpc/acados/'. From the folder, open a terminal and run 'source env_set.sh'. Next open MATLAB from the terminal via the command 'matlab'. Then you can run the 'acados_example.m' script to test the acados solver. 
+
+### Python acados test
+* Open a terminal and navigate to the repo directory.
+```cmd
+$ cd acados_jackal_example/
+$ virtualenv .env
+$ source .env/bin/activate
+$ pip3 install -e ../external/acados/interfaces/acados_template/
+$ source env_set.sh
+$ python jackal_mpc_example.py
+``` 
 
 If you find this code useful in your research then please cite:
 ```

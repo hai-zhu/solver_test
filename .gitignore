@@ -1,4 +1,8 @@
 
 .idea/
-
+acados_jackal_example/.env/
 __pycache__/
+
+acados_jackal_example/jackal_mpc_c_generated_code/
+
+acados_jackal_example/jackal_acados_ocp.json
