@@ -6,6 +6,10 @@ Examples to test different optimization solvers.
 ```cmd
 $ git clone https://github.com/hai-zhu/solver_test.git
 $ git submodule update --recursive --init
+$ cd external/acados
+$ mkdir -p build
+$ cmake -DACADOS_WITH_QPOASES=ON ..
+$ make install -j4
 ```
 
 ## Testing environment
