@@ -10,7 +10,9 @@ class Problem:
     ws_y = [-6.0, 6.0]      # m
     # robot control bound
     robot_maxVel = 1.0      # m/s 
-    robot_maxOmega = np.deg2rad(15.0)     # rad/s 
+    robot_maxOmega = np.deg2rad(15.0)     # rad/s
+    robot_maxAcc = 2.0      # m / s ^ 2
+    robot_maxOmegaAcc = np.deg2rad(30.0)  # rad / s ^ 2
     # robot size, start and goal positions, can be real time param
     robot_size = [0.5, 0.3] # ellipse, m
     robot_pos_start = [-8.0, 0.0]   # m
@@ -23,7 +25,7 @@ class Problem:
     dt = 0.1                # sampling time, s
     N = 20                  # horizon length
     T = N*dt                # horizon time
-    nx = 3                  # state dimension 
+    nx = 5                  # state dimension
     nu = 2                  # control dimension
     ns = 0                  # slack dimension
     nvar = nu + ns + nx     # nb. of variables in z vector
@@ -39,15 +41,17 @@ class Problem:
 # Vector index 
 @dataclass
 class Index:
-    # state vector, x = [px, py, theta]
+    # state vector, x = [px, py, theta, vel, omega]
     x_pos = np.s_[0: 2]     # 0, 1
-    x_theta = np.s_[2: 3]   # 2
-    # control vector, u = [vel, omega]
-    u_vel = np.s_[0: 1]     # 0
-    u_omega = np.s_[1: 2]   # 1
+    x_theta = np.s_[2]      # 2
+    x_vel = np.s_[3]        # 3
+    x_omega = np.s_[4]      # 4
+    # control vector, u = [acc, omega_acc]
+    u_acc = np.s_[0]        # 0
+    u_omega_acc = np.s_[1]  # 1
     # z vector
     z_inputs = np.s_[0: 2]  # 0, 1
-    z_states = np.s_[2: 5]  # 2, 3, 4
+    z_states = np.s_[2: 7]  # 2, 3, 4, 5, 6
     # param vector
     p_robot_pos_start = np.s_[0: 2]     # 0, 1
     p_robot_pos_goal = np.s_[2: 4]      # 2, 3

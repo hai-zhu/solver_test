@@ -1,4 +1,4 @@
-function dx = dynamics(x, u, p)
+function dx = jackal_dynamics_continuous(x, u, p)
     
     % state: x = [px, py, theta]
     % control: u = [vel, omega]

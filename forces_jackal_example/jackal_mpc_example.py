@@ -49,9 +49,9 @@ def forces_jackal_mpc_example():
     mpc_feasible = False
     n_loop = 0              # nb. of loops performed
     max_n_loop = 1000       # max nb. of loops 
-    robot_state_current = pr.robot_pos_start + pr.robot_theta_start    # list, [px, py, theta]
+    robot_state_current = pr.robot_pos_start + pr.robot_theta_start + [0.0, 0.0] # list, [px, py, theta, vel, omega]
     robot_control_current = list(np.zeros(pr.nu))
-    robot_z_current = robot_control_current + robot_state_current      # list, [vel, omega, px, py, theta]
+    robot_z_current = robot_control_current + robot_state_current
     mpc_z_plan = np.tile(np.array(robot_z_current).reshape((-1, 1)), (1, pr.N))
     # loop
     while n_loop <= max_n_loop:
@@ -82,17 +82,23 @@ def forces_jackal_mpc_example():
         for iStage in range(0, pr.N):
             mpc_z_plan[:, iStage] = mpc_output['x{0:02d}'.format(iStage + 1)]
         if mpc_exitflag != 1:     # infeasible
-            print("FORCESPRO took {} iterations and {} seconds to solve the problem.\n".format(mpc_info.it, mpc_info.solvetime))
+            print("FORCESPRO returned {} took {} iterations and {} seconds to solve the problem.\n".
+                  format(mpc_exitflag, mpc_info.it, mpc_info.solvetime))
             mpc_feasible = False
-            robot_control_current = list(0.1*mpc_z_plan[index.z_inputs, 0])
+            robot_state_next = mpc_z_plan[index.z_states, 1]
+            robot_control_current = [0.1*robot_state_next[index.x_vel], 0.1*robot_state_next[index.x_omega]]
         else:               # feasible
             mpc_feasible = True
-            robot_control_current = list(mpc_z_plan[index.z_inputs, 0])
+            robot_state_next = mpc_z_plan[index.z_states, 1]
+            robot_control_current = [robot_state_next[index.x_vel], robot_state_next[index.x_omega]]
         # Executing the control input 
-        # in simulation via RK 
-        robot_state_next = my_RK2(robot_state_current, robot_control_current, jackal_dynamics_continuous, pr.dt, [])
+        # in simulation via RK
+        robot_pos_theta_current = list(robot_state_current[index.x_pos]) + [robot_state_current[index.x_theta]]
+        robot_pos_theta_next = my_RK2(robot_pos_theta_current, robot_control_current, jackal_dynamics_continuous, pr.dt, [])
         # Update the system 
-        robot_state_current = robot_state_next
+        robot_state_current = robot_pos_theta_next + robot_control_current
+        # Using MPC computed state directly, for debugging
+        # robot_state_current = list(robot_state_next)
         # Update visualization 
         fig_robot_pos.set_center(robot_state_current[index.x_pos])
         fig_robot_pos.set_angle(np.rad2deg(robot_state_current[index.x_theta]))

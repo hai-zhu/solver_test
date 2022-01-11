@@ -5,10 +5,12 @@ global pr
 pr.ws_x = [-10.0, 10.0]';       % m
 pr.ws_y = [-6.0, 6.0]';         % m
 % robot dynamics
-pr.robot_dynamics_continuous = @jackal_dynamics_continuous;
+pr.robot_dynamics_continuous = @jackal_dynamics_continuous_second;
 % robot control bound
 pr.robot_maxVel = 1.5;          % m/s 
 pr.robot_maxOmega = deg2rad(15.0);      % rad/s 
+pr.robot_maxAcc = 10.0;          % m/s^2
+pr.robot_maxOmegaAcc = deg2rad(60.0);   % rad/s^2
 % robot size, start and goal positions, can be real time param
 pr.robot_size = [0.5, 0.3]';    % ellipse, m
 pr.robot_pos_start = [-8.0, 0.0]';      % m
@@ -21,7 +23,7 @@ pr.obs_pos = [0.0, -0.1]';      % m
 pr.dt = 0.1;                % sampling time, s
 pr.N = 20;                  % horizon length
 pr.T = pr.N*pr.dt;          % horizon time
-pr.nx = 3;                  % state dimension 
+pr.nx = 5;                  % state dimension 
 pr.nu = 2;                  % control dimension
 pr.ns = 0;                  % slack dimension
 pr.nvar = pr.nu + pr.ns + pr.nx;     % nb. of variables in z vector
@@ -35,15 +37,17 @@ pr.w_coll = 0.01;
 
 %% indexing
 global index
-% state vector, x = [px, py, theta]
+% state vector, x = [px, py, theta, vel, omega]
 index.x_pos = 1:2;        % 1, 2
 index.x_theta = 3;        % 3
-% control vector, u = [vel, omega]
-index.u_vel = 1;          % 0
-index.u_omega = 2;        % 2
+index.x_vel = 4;          % 4
+index.x_omega = 5;        % 5
+% control vector, u = [acc, omega_acc]
+index.u_acc = 1;          % 1
+index.u_omega_acc = 2;    % 2
 % z vector
 index.z_inputs = 1:2;     % 1, 2
-index.z_states = 3:5;     % 3, 4, 5
+index.z_states = 3:7;     % 3, 4, 5, 6, 7
 % param vector
 index.p_robot_pos_start = 1:2;     % 1, 2
 index.p_robot_pos_goal = 3:4;      % 3, 4

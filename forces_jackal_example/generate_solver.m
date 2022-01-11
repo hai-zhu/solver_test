@@ -15,8 +15,8 @@ model.nin  	=   pr.nu;     % number of control inputs
 model.nslack=   pr.ns;     % number of slack variables
 model.npar 	=   pr.nparam; % number of parameters on each stage
 % upper/lower bound of z vector
-model.lb    = [-pr.robot_maxVel, -pr.robot_maxOmega, pr.ws_x(1), pr.ws_y(1), -pi];
-model.ub    = [ pr.robot_maxVel,  pr.robot_maxOmega, pr.ws_x(2), pr.ws_y(2),  pi];
+model.lb    = [-pr.robot_maxAcc, -pr.robot_maxOmegaAcc, pr.ws_x(1), pr.ws_y(1), -pi, -pr.robot_maxVel, -pr.robot_maxOmega];
+model.ub    = [ pr.robot_maxAcc,  pr.robot_maxOmegaAcc, pr.ws_x(2), pr.ws_y(2),  pi,  pr.robot_maxVel,  pr.robot_maxOmega];
 % dynamics/equlities
 model.eq 	=   @(z) RK2(z(index.z_states), z(index.z_inputs), ...
                         pr.robot_dynamics_continuous, model.dt);

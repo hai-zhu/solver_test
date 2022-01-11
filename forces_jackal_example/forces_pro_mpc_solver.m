@@ -2,31 +2,31 @@
 %
 %   OUTPUT = forces_pro_mpc_solver(PARAMS) solves a multistage problem
 %   subject to the parameters supplied in the following struct:
-%       PARAMS.xinit - column vector of length 3
-%       PARAMS.x0 - column vector of length 100
+%       PARAMS.xinit - column vector of length 5
+%       PARAMS.x0 - column vector of length 140
 %       PARAMS.all_parameters - column vector of length 260
 %
 %   OUTPUT returns the values of the last iteration of the solver where
-%       OUTPUT.x01 - column vector of size 5
-%       OUTPUT.x02 - column vector of size 5
-%       OUTPUT.x03 - column vector of size 5
-%       OUTPUT.x04 - column vector of size 5
-%       OUTPUT.x05 - column vector of size 5
-%       OUTPUT.x06 - column vector of size 5
-%       OUTPUT.x07 - column vector of size 5
-%       OUTPUT.x08 - column vector of size 5
-%       OUTPUT.x09 - column vector of size 5
-%       OUTPUT.x10 - column vector of size 5
-%       OUTPUT.x11 - column vector of size 5
-%       OUTPUT.x12 - column vector of size 5
-%       OUTPUT.x13 - column vector of size 5
-%       OUTPUT.x14 - column vector of size 5
-%       OUTPUT.x15 - column vector of size 5
-%       OUTPUT.x16 - column vector of size 5
-%       OUTPUT.x17 - column vector of size 5
-%       OUTPUT.x18 - column vector of size 5
-%       OUTPUT.x19 - column vector of size 5
-%       OUTPUT.x20 - column vector of size 5
+%       OUTPUT.x01 - column vector of size 7
+%       OUTPUT.x02 - column vector of size 7
+%       OUTPUT.x03 - column vector of size 7
+%       OUTPUT.x04 - column vector of size 7
+%       OUTPUT.x05 - column vector of size 7
+%       OUTPUT.x06 - column vector of size 7
+%       OUTPUT.x07 - column vector of size 7
+%       OUTPUT.x08 - column vector of size 7
+%       OUTPUT.x09 - column vector of size 7
+%       OUTPUT.x10 - column vector of size 7
+%       OUTPUT.x11 - column vector of size 7
+%       OUTPUT.x12 - column vector of size 7
+%       OUTPUT.x13 - column vector of size 7
+%       OUTPUT.x14 - column vector of size 7
+%       OUTPUT.x15 - column vector of size 7
+%       OUTPUT.x16 - column vector of size 7
+%       OUTPUT.x17 - column vector of size 7
+%       OUTPUT.x18 - column vector of size 7
+%       OUTPUT.x19 - column vector of size 7
+%       OUTPUT.x20 - column vector of size 7
 %
 %   [OUTPUT, EXITFLAG] = forces_pro_mpc_solver(PARAMS) returns additionally
 %   the integer EXITFLAG indicating the state of the solution with 

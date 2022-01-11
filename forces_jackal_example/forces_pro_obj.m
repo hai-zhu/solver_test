@@ -22,7 +22,7 @@ function cost = forces_pro_obj(z, p)
     cost_wp_pos = w_pos * obj_desired_pos(ego_pos, ego_start, ego_goal);
 
     %% control input cost
-    ego_inputs_normalized = [ego_inputs(1)/pr.robot_maxVel; ego_inputs(2)/pr.robot_maxOmega];
+    ego_inputs_normalized = [ego_inputs(1)/pr.robot_maxAcc; ego_inputs(2)/pr.robot_maxOmegaAcc];
     cost_input = w_inputs * obj_input_acc(ego_inputs_normalized);
     
     %% collision potential cost
@@ -69,10 +69,10 @@ function cost = obj_collision_potential(ego_pos, ego_size, obs_pos, obs_size)
     d_vec = ego_pos - obs_pos;
     d = d_vec(1)^2/a^2 + d_vec(2)^2/b^2;
     % if else based
-%     d_c = d - 1;
-%     cost = if_else(d_c>0, 0, -d_c);
+    d_c = d - 1;
+    cost = if_else(d_c>0, 0, -d_c);
     % logistic based
-    cost = 1 / (1+exp(10*(d - 1.6)));
+%     cost = 1 / (1+exp(10*(d - 1.6)));
 
 end
 
