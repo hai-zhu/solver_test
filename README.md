@@ -48,6 +48,19 @@ $ source env_set.sh
 $ python jackal_mpc_example.py
 ``` 
 
+### Python Forces_Pro test
+* Copy the `forces_pro_client` folder to the `forces_jackal_example` folder.
+* Navigate to the `forces_jackal_example` directory and open a MATLAB instance to generate the solver.
+  * generate_solver.m
+* Open a terminal and navigate to the `forces_jackal_example` directory.
+```cmd
+$ python -m venv .env
+$ source .env/bin/activate
+$ pip install -r ./forces_pro_client/requirements.txt 
+$ source env_set.sh
+$ python jackal_mpc_example.py
+``` 
+
 If you find this code useful in your research then please cite:
 ```
 @article{Zhu2019RAL,

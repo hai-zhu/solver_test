@@ -6,3 +6,17 @@ __pycache__/
 acados_jackal_example/jackal_mpc_c_generated_code/
 
 acados_jackal_example/jackal_acados_ocp.json
+
+forces_jackal_example/.env/
+
+forces_jackal_example/forces_pro_client/
+
+forces_jackal_example/forces_pro_mpc_solver/
+
+*.forces
+
+*.mexa64
+
+forces_jackal_example/forces_pro_mpc_solver_mex_compiler_warnings.txt
+
+forces_jackal_example/stdout_temp.txt
