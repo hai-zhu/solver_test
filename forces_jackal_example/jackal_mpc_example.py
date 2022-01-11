@@ -96,7 +96,7 @@ def forces_jackal_mpc_example():
         # Update visualization 
         fig_robot_pos.set_center(robot_state_current[index.x_pos])
         fig_robot_pos.set_angle(np.rad2deg(robot_state_current[index.x_theta]))
-        mpc_x_plan = mpc_z_plan[index.z_states, :];
+        mpc_x_plan = mpc_z_plan[index.z_states, :]
         fig_robot_mpc_path[0].set_data(mpc_x_plan[index.x_pos, 1:])
         fig_main.canvas.draw()
         fig_main.canvas.flush_events()

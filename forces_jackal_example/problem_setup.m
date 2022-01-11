@@ -7,7 +7,7 @@ pr.ws_y = [-6.0, 6.0]';         % m
 % robot dynamics
 pr.robot_dynamics_continuous = @jackal_dynamics_continuous;
 % robot control bound
-pr.robot_maxVel = 1.0;          % m/s 
+pr.robot_maxVel = 1.5;          % m/s 
 pr.robot_maxOmega = deg2rad(15.0);      % rad/s 
 % robot size, start and goal positions, can be real time param
 pr.robot_size = [0.5, 0.3]';    % ellipse, m

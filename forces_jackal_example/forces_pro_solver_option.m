@@ -5,7 +5,7 @@ function codeoptions = forces_pro_solver_option(solver_name)
     
     %% general options
     codeoptions.printlevel  = 0;        % 0-none; 1-each solve; 2-each iteration
-    codeoptions.maxit       = 300;      % maximum number of iterations
+    codeoptions.maxit       = 100;      % maximum number of iterations
     codeoptions.optlevel    = 3;        % 0: no optimization, 
                                         % 1: optimize for size, 
                                         % 2: optimize for speed, 
