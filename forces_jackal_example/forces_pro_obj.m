@@ -6,6 +6,7 @@ function cost = forces_pro_obj(z, p)
     ego_inputs  =   z(index.z_inputs);
     ego_states  =   z(index.z_states);
     ego_pos     =   ego_states(index.x_pos);
+    ego_yaw     =   ego_states(index.x_theta);
     
     %% information from online parameter
     ego_start   =   p(index.p_robot_pos_start);
@@ -15,11 +16,17 @@ function cost = forces_pro_obj(z, p)
     obs_size    =   p(index.p_obs_size);
     mpc_weights =   p(index.p_mpc_weights);
     w_pos       =   mpc_weights(index.p_mpc_weights_w_pos);
+    w_yaw       =   mpc_weights(index.p_mpc_weights_w_yaw);
     w_inputs    =   mpc_weights(index.p_mpc_weights_w_input);
     w_coll      =   mpc_weights(index.p_mpc_weights_w_coll);
      
     %% waypoint cost
     cost_wp_pos = w_pos * obj_desired_pos(ego_pos, ego_start, ego_goal);
+    
+    %% yaw cost
+    pos_robot_to_goal = ego_goal - ego_pos;
+    yaw_robot_to_goal = atan2(pos_robot_to_goal(2), pos_robot_to_goal(1));
+    cost_wp_yaw = w_yaw * (ego_yaw-yaw_robot_to_goal)^2;
 
     %% control input cost
     ego_inputs_normalized = [ego_inputs(1)/pr.robot_maxAcc; ego_inputs(2)/pr.robot_maxOmegaAcc];
@@ -30,7 +37,7 @@ function cost = forces_pro_obj(z, p)
         obs_pos, obs_size);
     
     %% combine all cost
-    cost = cost_wp_pos + cost_input + cost_coll;
+    cost = cost_wp_pos + cost_input + cost_coll + cost_wp_yaw;
     
 end
 

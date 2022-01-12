@@ -10,13 +10,13 @@ class Problem:
     ws_y = [-6.0, 6.0]      # m
     # robot control bound
     robot_maxVel = 1.0      # m/s 
-    robot_maxOmega = np.deg2rad(15.0)     # rad/s
-    robot_maxAcc = 2.0      # m / s ^ 2
-    robot_maxOmegaAcc = np.deg2rad(30.0)  # rad / s ^ 2
+    robot_maxOmega = 1.0    # rad/s
+    robot_maxAcc = 3.0      # m / s ^ 2
+    robot_maxOmegaAcc = 1.0  # rad / s ^ 2
     # robot size, start and goal positions, can be real time param
     robot_size = [0.5, 0.3] # ellipse, m
     robot_pos_start = [-8.0, 0.0]   # m
-    robot_theta_start = [np.deg2rad(0.0)]  # rad
+    robot_theta_start = [np.deg2rad(60.0)]  # rad
     robot_pos_goal = [8.0, 0.0]     # m
     # obstacle size, position, can be real time param 
     obs_size = [1.6, 1.0]   # m
@@ -31,9 +31,10 @@ class Problem:
     nvar = nu + ns + nx     # nb. of variables in z vector
     neq = nx                # nb. of equality constraints
     nh = 1                  # nb. of inequality constraints
-    nparam = 13             # parameter dimension 
+    nparam = 14             # parameter dimension
     # MPC cost terms weights, can be real time param
     w_pos = 8.0
+    w_yaw = 0.01
     w_input = 0.01
     w_coll = 0.1
     
@@ -58,7 +59,8 @@ class Index:
     p_robot_size = np.s_[4: 6]          # 4, 5
     p_obs_pos = np.s_[6: 8]             # 6, 7
     p_obs_size = np.s_[8: 10]           # 8, 9
-    p_mpc_weights = np.s_[10: 13]       # 10, 11, 12
+    p_mpc_weights = np.s_[10: 14]       # 10, 11, 12, 13
     p_mpc_weights_w_pos = np.s_[0]      # 0 in mpc_weights
-    p_mpc_weights_w_input = np.s_[1]    # 1 in mpc_weights
-    p_mpc_weights_w_coll = np.s_[2]     # 2 in mpc_weights
+    p_mpc_weights_w_yaw = np.s_[1]      # 1 in mpc_weights
+    p_mpc_weights_w_input = np.s_[2]    # 2 in mpc_weights
+    p_mpc_weights_w_coll = np.s_[3]     # 3 in mpc_weights

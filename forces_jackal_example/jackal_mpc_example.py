@@ -60,21 +60,23 @@ def forces_jackal_mpc_example():
         nlp_problem["xinit"] = np.array(robot_state_current)
         # Set real time paraterms
         param_all_stage = np.zeros((pr.nparam, pr.N))
+        dis_to_goal = np.linalg.norm(np.array(robot_state_current[index.x_pos]) - np.array(pr.robot_pos_goal))
+        w_yaw = pr.w_yaw * min(0.1, dis_to_goal**2)
         for iStage in range(0, pr.N):
             param_all_stage[index.p_robot_pos_start, iStage] = np.array(robot_state_current[index.x_pos])
             param_all_stage[index.p_robot_pos_goal, iStage] = np.array(pr.robot_pos_goal)
             param_all_stage[index.p_robot_size, iStage] = np.array(pr.robot_size)
             param_all_stage[index.p_obs_pos, iStage] = np.array(pr.obs_pos)
             param_all_stage[index.p_obs_size, iStage] = np.array(pr.obs_size)
-            param_all_stage[index.p_mpc_weights, iStage] = np.array([0.2*pr.w_pos, pr.w_input, pr.w_coll])
+            param_all_stage[index.p_mpc_weights, iStage] = np.array([1.0/pr.N*pr.w_pos, w_yaw, pr.w_input, pr.w_coll])
             if iStage == pr.N-1:
-                param_all_stage[index.p_mpc_weights, iStage] = np.array([pr.w_pos, pr.w_input, pr.w_coll])
+                param_all_stage[index.p_mpc_weights, iStage] = np.array([pr.w_pos, w_yaw, pr.w_input, pr.w_coll])
         nlp_problem["all_parameters"] = param_all_stage.reshape((-1, 1), order='F')
         # Set initial guess
         if mpc_feasible:        # MPC feasible
             z_traj_init = np.concatenate((mpc_z_plan[:, 1:], mpc_z_plan[:, -1:]), axis=1)
         else:                   # MPC infeasible
-            z_traj_init = np.tile(np.array(robot_state_current+list(np.zeros(pr.nu))).reshape((-1, 1)), (1, pr.N))
+            z_traj_init = np.tile(np.array(list(np.zeros(pr.nu))+robot_state_current).reshape((-1, 1)), (1, pr.N))
         nlp_problem["x0"] = z_traj_init.reshape((-1, 1), order='F')
         # Call the solver
         mpc_output, mpc_exitflag, mpc_info = forces_pro_mpc_solver_py.solve(nlp_problem)
@@ -86,7 +88,7 @@ def forces_jackal_mpc_example():
                   format(mpc_exitflag, mpc_info.it, mpc_info.solvetime))
             mpc_feasible = False
             robot_state_next = mpc_z_plan[index.z_states, 1]
-            robot_control_current = [0.1*robot_state_next[index.x_vel], 0.1*robot_state_next[index.x_omega]]
+            robot_control_current = [0.5*robot_state_next[index.x_vel], 0.5*robot_state_next[index.x_omega]]
         else:               # feasible
             mpc_feasible = True
             robot_state_next = mpc_z_plan[index.z_states, 1]
@@ -96,9 +98,9 @@ def forces_jackal_mpc_example():
         robot_pos_theta_current = list(robot_state_current[index.x_pos]) + [robot_state_current[index.x_theta]]
         robot_pos_theta_next = my_RK2(robot_pos_theta_current, robot_control_current, jackal_dynamics_continuous, pr.dt, [])
         # Update the system 
-        robot_state_current = robot_pos_theta_next + robot_control_current
+        # robot_state_current = robot_pos_theta_next + robot_control_current
         # Using MPC computed state directly, for debugging
-        # robot_state_current = list(robot_state_next)
+        robot_state_current = list(robot_state_next)
         # Update visualization 
         fig_robot_pos.set_center(robot_state_current[index.x_pos])
         fig_robot_pos.set_angle(np.rad2deg(robot_state_current[index.x_theta]))

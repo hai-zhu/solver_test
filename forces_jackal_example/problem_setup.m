@@ -7,10 +7,10 @@ pr.ws_y = [-6.0, 6.0]';         % m
 % robot dynamics
 pr.robot_dynamics_continuous = @jackal_dynamics_continuous_second;
 % robot control bound
-pr.robot_maxVel = 1.5;          % m/s 
-pr.robot_maxOmega = deg2rad(15.0);      % rad/s 
-pr.robot_maxAcc = 10.0;          % m/s^2
-pr.robot_maxOmegaAcc = deg2rad(60.0);   % rad/s^2
+pr.robot_maxVel = 1.0;          % m/s 
+pr.robot_maxOmega = 1.0;        % rad/s 
+pr.robot_maxAcc = 3.0;          % m/s^2
+pr.robot_maxOmegaAcc = 1.0;     % rad/s^2
 % robot size, start and goal positions, can be real time param
 pr.robot_size = [0.5, 0.3]';    % ellipse, m
 pr.robot_pos_start = [-8.0, 0.0]';      % m
@@ -29,9 +29,10 @@ pr.ns = 0;                  % slack dimension
 pr.nvar = pr.nu + pr.ns + pr.nx;     % nb. of variables in z vector
 pr.neq = pr.nx;             % nb. of equality constraints
 pr.nh = 1;                  % nb. of inequality constraints
-pr.nparam = 13;             % parameter dimension 
+pr.nparam = 14;             % parameter dimension 
 % MPC cost terms weights, can be real time param
 pr.w_pos = 8.0;
+pr.w_theta = 1.0;
 pr.w_input = 0.05;
 pr.w_coll = 0.01;
 
@@ -54,8 +55,9 @@ index.p_robot_pos_goal = 3:4;      % 3, 4
 index.p_robot_size = 5:6;          % 5, 6
 index.p_obs_pos = 7:8;             % 7, 8
 index.p_obs_size = 9:10;           % 9, 10
-index.p_mpc_weights = 11:13;       % 11, 12, 13
+index.p_mpc_weights = 11:14;       % 11, 12, 13, 14
 index.p_mpc_weights_w_pos = 1;     % 1 in mpc_weights
-index.p_mpc_weights_w_input = 2;   % 2 in mpc_weights
-index.p_mpc_weights_w_coll = 3;    % 3 in mpc_weights
+index.p_mpc_weights_w_yaw = 2;     % 2 in mpc_weights
+index.p_mpc_weights_w_input = 3;   % 3 in mpc_weights
+index.p_mpc_weights_w_coll = 4;    % 4 in mpc_weights
 
