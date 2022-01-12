@@ -1,4 +1,5 @@
 %% Generating a Forces Pro solver
+addpath('./forces_pro_client');
 
 %% problem setup
 problem_setup;
@@ -15,8 +16,8 @@ model.nin  	=   pr.nu;     % number of control inputs
 model.nslack=   pr.ns;     % number of slack variables
 model.npar 	=   pr.nparam; % number of parameters on each stage
 % upper/lower bound of z vector
-model.lb    = [-pr.robot_maxAcc, -pr.robot_maxOmegaAcc, pr.ws_x(1), pr.ws_y(1), -pi, -pr.robot_maxVel, -pr.robot_maxOmega];
-model.ub    = [ pr.robot_maxAcc,  pr.robot_maxOmegaAcc, pr.ws_x(2), pr.ws_y(2),  pi,  pr.robot_maxVel,  pr.robot_maxOmega];
+model.lb    = [-pr.robot_maxVel, -pr.robot_maxOmega, 0,    pr.ws_x(1), pr.ws_y(1), -inf];
+model.ub    = [ pr.robot_maxVel,  pr.robot_maxOmega, +Inf, pr.ws_x(2), pr.ws_y(2), +inf];
 % dynamics/equlities
 model.eq 	=   @(z) RK2(z(index.z_states), z(index.z_inputs), ...
                         pr.robot_dynamics_continuous, model.dt);

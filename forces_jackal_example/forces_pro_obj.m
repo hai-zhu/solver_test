@@ -5,8 +5,10 @@ function cost = forces_pro_obj(z, p)
     %% information from state
     ego_inputs  =   z(index.z_inputs);
     ego_states  =   z(index.z_states);
+    ego_slacks  =   z(index.z_slacks);
     ego_pos     =   ego_states(index.x_pos);
     ego_yaw     =   ego_states(index.x_theta);
+    slack_coll  =   ego_slacks(index.s_coll);
     
     %% information from online parameter
     ego_start   =   p(index.p_robot_pos_start);
@@ -19,6 +21,7 @@ function cost = forces_pro_obj(z, p)
     w_yaw       =   mpc_weights(index.p_mpc_weights_w_yaw);
     w_inputs    =   mpc_weights(index.p_mpc_weights_w_input);
     w_coll      =   mpc_weights(index.p_mpc_weights_w_coll);
+    w_slack     =   mpc_weights(index.p_mpc_weights_w_slack);
      
     %% waypoint cost
     cost_wp_pos = w_pos * obj_desired_pos(ego_pos, ego_start, ego_goal);
@@ -29,15 +32,18 @@ function cost = forces_pro_obj(z, p)
     cost_wp_yaw = w_yaw * (ego_yaw-yaw_robot_to_goal)^2;
 
     %% control input cost
-    ego_inputs_normalized = [ego_inputs(1)/pr.robot_maxAcc; ego_inputs(2)/pr.robot_maxOmegaAcc];
+    ego_inputs_normalized = [ego_inputs(1)/pr.robot_maxVel; ego_inputs(2)/pr.robot_maxOmega];
     cost_input = w_inputs * obj_input_acc(ego_inputs_normalized);
     
     %% collision potential cost
     cost_coll = w_coll * obj_collision_potential(ego_pos, ego_size, ...
         obs_pos, obs_size);
     
+    %% slack cost
+    cost_slack = w_slack * slack_coll;
+    
     %% combine all cost
-    cost = cost_wp_pos + cost_input + cost_coll + cost_wp_yaw;
+    cost = cost_wp_pos + cost_input + cost_coll + cost_wp_yaw + cost_slack;
     
 end
 
@@ -71,8 +77,8 @@ end
 function cost = obj_collision_potential(ego_pos, ego_size, obs_pos, obs_size)
 
     % Compute the potential filed based collision avoidance cost
-    a = ego_size(1) + 1.6*obs_size(1);
-    b = ego_size(2) + 1.6*obs_size(2);
+    a = ego_size(1) + 2.0*obs_size(1);
+    b = ego_size(2) + 2.0*obs_size(2);
     d_vec = ego_pos - obs_pos;
     d = d_vec(1)^2/a^2 + d_vec(2)^2/b^2;
     % if else based
